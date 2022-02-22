@@ -1,33 +1,48 @@
 const express = require('express');
-const lodash = require('lodash')
 const router = express.Router();
-let obj =require('../logger/logger')
-let helper =require('../util/helper')
-let format = require('../validator/formatter')
-router.get('/test-me', function (req, res) {
-    //console.log(obj.endpoint);
-    obj.welcome('Mashum');
-     helper.printDate();
-     helper.printMonth();
-     helper.getBatchInfo('Thorium, W3D1, the topic for today is Nodejs module system')
-     format.trimSentence();
-    res.send('Welcome to my application. I am Mashum and a part of FunctionUp Thorium cohort.');  
+
+// router.get('/students/:name', function(req, res) {
+//     let studentName = req.params.name
+//     console.log(studentName)
+//     res.send(studentName)
+// })
+router.get('/movies',function (req ,res) {
+
+    res.send('["fukrey","delhi","kapil","abul","mumbai"]')
 });
 
-router.get('/hello', function(req, res){
-   
-    const arrng = require("lodash");
-    // Arrange the array
-    let arr = ['Jan', 'Feb', 'March', 'April', 'may', 'june'];
-     console.log(arrng.chunk(arr, 2))
-    res.send('Welcome to my application.');
-    // last 9 elements 
-    for (let i = 1; i < 20; i+=2) {
-        let x = arrng.tail(i);
-        console.log(x);
-       }
-    // let newArray = arrng.tail(x);
-  
-  }); 
-   
+// fetch movie by id
+  router.get('/movies/:movieId', function(req,res){
+      mov=["fukrey","delhi","kapil","abul","mumbai"]
+      let value=req.params.movieId;
+      if(value>mov.length-1){
+          res.send('"Not found"')
+      }
+      else {
+          res.send(mov[value])
+      }
+  })
+
+// api fetch all movies
+
+  router.get('/moviez' ,function(req,res){
+
+    res.send([{id:1,name: 'rock'},{id:2,name: 'rockstar'},{id:3,name: 'Idiot'},{id:4,name: 'puspha'},])
+  });
+
+  // fetch all movie with index
+  router.get('/film/:filmid' , function(req,res){
+let movi =[{id:1,name: 'rock'},{id:2,name: 'rockstar'},{id:3,name: 'Idiot'},{id:4,name: 'puspha'},]
+let value=req.params.filmid;
+let found =false;
+for(i=0;i<movi.length;i++){
+    if(value>movi.length-1){
+        res.send('"Not found"')
+    }
+    else {
+        res.send(movi[value])
+    }
+}
+  })
+
 module.exports = router;
