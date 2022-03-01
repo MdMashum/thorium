@@ -1,5 +1,7 @@
 const { count } = require("console")
+const author = require("../models/author")
 const BookModel= require("../models/bookModel")
+const Books = require("../models/Books")
 
 const createBook= async function (req, res) {
     let data= req.body
@@ -42,14 +44,36 @@ const deleteBooks= async function (req, res) {
      res.send( { msg: allBooks})
 }
 
+const authorbooks= async function (req, res) {
+    let data= req.body
+
+    let savedData= await Books.create(data)
+    res.send({msg: savedData})
+}
 
 
+const authorsname= async function (req, res) {
+    let data= req.body
 
-// CRUD OPERATIONS:
-// CREATE
-// READ
-// UPDATE
-// DELETE
+    let savedData= await author.create(data)
+    res.send({msg: data})
+}
+
+const getauthor= async function (req, res) {
+    let chetan= await author.find( {Author_Name:"Chetan"} )
+    res.send({msg: chetan})
+}
+
+const updateprice= async function (req, res) {
+    let data = req.body 
+    let updatedprice= await author.findOneAndUpdate( 
+        { Author_Name: "Chetan Bagat"} , //condition
+        { $set: data }, //update in data
+        { new: true } // new: true - will give you back the updated document // Upsert: it finds and updates the document but if the doc is not found(i.e it does not exist) then it creates a new document i.e UPdate Or inSERT  
+     )
+     res.send( { msg: data})
+}
+
 
 
 
@@ -57,3 +81,7 @@ module.exports.createBook= createBook
 module.exports.getBooksData= getBooksData
 module.exports.updateBooks= updateBooks
 module.exports.deleteBooks= deleteBooks
+module.exports.authorbooks=authorbooks
+module.exports.authorsname=authorsname
+module.exports.getauthor=getauthor
+module.exports.updateprice=updateprice
